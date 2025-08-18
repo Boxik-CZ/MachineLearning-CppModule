@@ -1,6 +1,6 @@
-#include "ML.h"
+#include <vector>
 #include <cmath>
-
+#pragma once
 long double e = 2.718281828459045235360287471352;
 long double sigmoid(long double x) {
     return 1.0L/(1.0L+pow(e, -x));
@@ -9,12 +9,12 @@ long double sigmoidDer(long double x) {
     long double s = sigmoid(x);
     return s * (1-s);
 }
-long double sum(std::vector<long double> vals, std::vector<long double> w) {
+long double sum(std::vector<long double> vals, std::vector<long double> w, long double b) {
     long double res = 0;
     for (int i = 0; i < vals.size(); i++) {
         res += vals[i]*w[i];
     }
-    return res;
+    return res+b;
 }
 
 // last layer error
@@ -23,12 +23,13 @@ std::vector<long double> LLerror(
     std::vector<std::vector<long double>> &who,
     int sample,
     std::vector<std::vector<long double>> &y,
-    std::vector<long double> &oL_out
+    std::vector<long double> &oL_out,
+    std::vector<long double> b
 ) {
     std::vector<long double> deltaO(who.size());
 
     for (int j = 0; j < who.size(); j++) {
-        long double z_out = sum(hL, who[j]);
+        long double z_out = sum(hL, who[j], b[j]);
         oL_out[j] = sigmoid(z_out);
         deltaO[j] = (oL_out[j] - y[sample][j]) * sigmoidDer(z_out);
     }
@@ -81,4 +82,10 @@ std::vector<std::vector<long double>> HLupd(
         }
     }
     return wih;
+}
+std::vector<long double> Bupd(std::vector<long double> &b, std::vector<long double> &delta, long double lr) {
+    for (int i = 0; i < b.size(); i++) {
+        b[i] -= lr * delta[i];
+    }
+    return b;
 }
