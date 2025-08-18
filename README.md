@@ -1,5 +1,5 @@
 # MachneLearning-CppModule
-is a module for c++ that contains really basic functions for machine learning.
+is a module for c++ that contains really basic functions for machine learning. Note: This module is a student project, don't expect anything life changing :).
 
 ## Built-in variables:
 
@@ -8,20 +8,30 @@ is a module for c++ that contains really basic functions for machine learning.
 
 ## Built-in functions:
 
-### long double sigmoid(long double x) {}:
+### Sigmoid activation function
+Function definition:
+`long double sigmoid(long double x) {}`
 
 Input:
-x ... input value for sigmoid. Sigmoid is a mathematic functions described as f(x)=1/(1+e^-x).
+- x ... input value for sigmoid. Sigmoid is a mathematic functions described as f(x)=1/(1+e^-x).
 
-Output : long double value that is f(x).
+Output -> long double value that is f(x).
 
-
-
-### std::vector<long double> LLerror(std::vector<long double> hL,std::vector<std::vector<long double>> &who,int sample,std::vector<std::vector<long double>> &y,std::vector<long double> &oL_out);
+### Error of last layer
+Function definition:
+`std::vector<long double> LLerror(std::vector<long double> hL,std::vector<std::vector<long double>> &who,int sample,std::vector<std::vector<long double>> &y,std::vector<long double> &oL_out) {}`
 
 Input:
-hL ... 
+- hL ... Values of hidden layer (vector). Check Layer Formating.
+- who .. Weights between hidden and output layer. Check weights formating.
+- sample ... index of tested value from x or y (these are datasets, x is input and y is output, check datasets formating)
+- y ... output dataset
+- oL_out ... Valeus of output layer
+- b ... bias vector (check bias formating)
 
+Output -> 1D vector with error for all neurons in last layer.
+
+### Error of hidden layer
 
 ## Formating layer and weight vectors
 
