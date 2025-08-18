@@ -1,15 +1,17 @@
 #pragma once
 #include <vector>
-long double e;
+
+extern long double e;
 long double sigmoid(long double x);
 long double sigmoidDer(long double x);
-long double sum(std::vector<long double> vals, std::vector<long double> w, std::vector<long double> b);
+long double sum(std::vector<long double> vals, std::vector<long double> w, long double b);
 std::vector<long double> LLerror(
     std::vector<long double> hL,
     std::vector<std::vector<long double>> &who,
     int sample,
     std::vector<std::vector<long double>> &y,
-    std::vector<long double> &oL_out
+    std::vector<long double> &oL_out,
+    std::vector<long double> b
 );
 std::vector<long double> HLerror(
     std::vector<long double> nextDelta,
