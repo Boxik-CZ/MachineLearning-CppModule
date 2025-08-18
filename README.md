@@ -139,7 +139,7 @@ std::vector<long double> outputLayerBias = {0};
 
 ## Project example
 
-Now I will show you example how can complete code look like. Let's say we want 1-2-1 network where if we input 0 the network will output 1 and the other way around. Before starting, don't forget to import vectors using `#include <vector>`.
+Now I will show you example how can complete code look like. Let's say we want 1-2-1 network where if we input 0 the network will output 1 and the other way around. Before starting, don't forget to import vectors and this module using `#include <vector>` and `#include "ML.h"`.
 
 ### 1. Dataset definition
 
@@ -295,5 +295,72 @@ Here we print out the tested value and the output value of the network.
 Here is the complete program:
 
 ```
+#include "ML.h"
+#include <iostream>
+#include <vector>
+
+int main() {
+    // dataset: XOR-ish
+    std::vector<std::vector<long double>> x = {
+        {0},
+        {1}
+    };
+    std::vector<std::vector<long double>> y = {
+        {1, 0}, // pro vstup 0
+        {0, 1}  // pro vstup 1
+    };
+
+    // Síť : 1-2-2
+    std::vector<long double> iL = {0};
+    std::vector<long double> hL = {0,0};
+    std::vector<long double> oL = {0,0};
+    std::vector<long double> hB = {0, 0};
+    std::vector<long double> oB = {0,0};
+
+    std::vector<std::vector<long double>> wih = {
+        {0.5}, {-0.3}
+    };
+    std::vector<std::vector<long double>> who = {
+        {0.8, 0.2},   // váhy do 1. výstupu
+        {-0.5, 0.7}   // váhy do 2. výstupu
+    };
+
+    long double lr = 0.1;
+    int index = 0;
+    int epochs = 50000;
+    // main loop
+    for (int epoch = 0; epoch < 50000; epoch++) {
+        index = epoch % 2; // střídám data
+
+        iL = {x[index][0]};
+        // forward
+        for (int i = 0; i < hL.size(); i++) {
+            hL[i] = sigmoid(sum(iL, wih[i], hB[i]));
+        }
+
+        std::vector<long double> eLL = LLerror(hL, who, index, y, oL, oB);
+        std::vector<long double> eL1 = HLerror(eLL, who, hL);
+
+        // weight update
+        who = OLupd(hL, who, eLL, lr);
+        wih = HLupd(iL, wih, eL1, lr);
+        hB = Bupd(hB, eL1, lr);
+        oB = Bupd(oB, eLL, lr);
+    }
+
+    // test
+    for (int in = 0; in < 2; in++) {
+        iL = {x[in][0]};
+        for (int i = 0; i < hL.size(); i++) {
+            hL[i] = sigmoid(sum(iL, wih[i], hB[i]));
+        }
+        for (int j = 0; j < oL.size(); j++) {
+            oL[j] = sigmoid(sum(hL, who[j], oB[j]));
+        }
+        std::cout << "x="<<x[in][0]<<": "<<oL[0]<<"\n";
+    }
+
+    return 0;
+}
 
 ```
