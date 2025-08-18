@@ -300,17 +300,15 @@ Here is the complete program:
 #include <vector>
 
 int main() {
-    // dataset: XOR-ish
     std::vector<std::vector<long double>> x = {
         {0},
         {1}
     };
     std::vector<std::vector<long double>> y = {
-        {1, 0}, // pro vstup 0
-        {0, 1}  // pro vstup 1
+        {1, 0},
+        {0, 1}
     };
 
-    // Síť : 1-2-2
     std::vector<long double> iL = {0};
     std::vector<long double> hL = {0,0};
     std::vector<long double> oL = {0,0};
@@ -321,8 +319,8 @@ int main() {
         {0.5}, {-0.3}
     };
     std::vector<std::vector<long double>> who = {
-        {0.8, 0.2},   // váhy do 1. výstupu
-        {-0.5, 0.7}   // váhy do 2. výstupu
+        {0.8, 0.2},
+        {-0.5, 0.7}
     };
 
     long double lr = 0.1;
@@ -330,10 +328,9 @@ int main() {
     int epochs = 50000;
     // main loop
     for (int epoch = 0; epoch < 50000; epoch++) {
-        index = epoch % 2; // střídám data
+        index = epoch % 2;
 
         iL = {x[index][0]};
-        // forward
         for (int i = 0; i < hL.size(); i++) {
             hL[i] = sigmoid(sum(iL, wih[i], hB[i]));
         }
@@ -341,14 +338,12 @@ int main() {
         std::vector<long double> eLL = LLerror(hL, who, index, y, oL, oB);
         std::vector<long double> eL1 = HLerror(eLL, who, hL);
 
-        // weight update
         who = OLupd(hL, who, eLL, lr);
         wih = HLupd(iL, wih, eL1, lr);
         hB = Bupd(hB, eL1, lr);
         oB = Bupd(oB, eLL, lr);
     }
 
-    // test
     for (int in = 0; in < 2; in++) {
         iL = {x[in][0]};
         for (int i = 0; i < hL.size(); i++) {
