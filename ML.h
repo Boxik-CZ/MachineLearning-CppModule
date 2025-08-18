@@ -28,3 +28,8 @@ std::vector<std::vector<long double>> HLupd(
     std::vector<long double> &deltaH,
     long double lr
 );
+std::vector<long double> Bupd(
+    std::vector<long double> &b,
+    std::vector<long double> &delta,
+    long double lr
+);
