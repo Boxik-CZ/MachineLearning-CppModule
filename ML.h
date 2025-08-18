@@ -3,7 +3,7 @@
 long double e;
 long double sigmoid(long double x);
 long double sigmoidDer(long double x);
-long double sum(std::vector<long double> vals, std::vector<long double> w);
+long double sum(std::vector<long double> vals, std::vector<long double> w, std::vector<long double> b);
 std::vector<long double> LLerror(
     std::vector<long double> hL,
     std::vector<std::vector<long double>> &who,
