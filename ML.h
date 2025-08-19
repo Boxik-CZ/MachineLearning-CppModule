@@ -35,3 +35,9 @@ std::vector<long double> Bupd(
     std::vector<long double> &delta,
     long double lr
 );
+long double sech(long double x);
+long double ReLU(long double x);
+long double ReLUDer(long double x);
+long double tanhDer(long double x);
+long double PReLU(long double x, long double a);
+long double PReLUDer(long double x, long double a);

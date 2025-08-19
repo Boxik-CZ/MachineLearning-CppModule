@@ -1,7 +1,7 @@
 #include <vector>
 #include <cmath>
 #include "ML.h"
-long double e = 2.718281828459045235360287471352;
+long double e = M_E;
 long double sigmoid(long double x) {
     return 1.0L/(1.0L+pow(e, -x));
 }
@@ -88,4 +88,39 @@ std::vector<long double> Bupd(std::vector<long double> &b, std::vector<long doub
         b[i] -= lr * delta[i];
     }
     return b;
+}
+long double sech(long double x) {return 1/cosh(x);}
+long double ReLU(long double x) {
+  if (x > 0) {
+    return x;
+  } else {
+    return 0;
+  }
+}
+long double ReLUDer(long double x) {
+  if (x > 0) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+long double tanhDer(long double x) {
+  return pow(sech(x), 2);
+}
+
+long double PReLU(long double x, long double a) {
+if (x > 0) {
+    return x;
+  } else {
+    return a*x;
+  }
+}
+
+long double PReLUDer(long double x, long double a) {
+if (x > 0) {
+    return 1;
+  } else {
+    return a;
+  }
 }
